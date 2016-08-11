@@ -1,0 +1,144 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<div>
+    <h2>
+        Node Design capacity
+    </h2>
+    <p>
+        This is a list of Node Capacity.
+    </p>
+    <table class="table-bordered col-md-push-6 text-center">
+        <tr>
+            <th>
+                <strong>Name</strong>
+            </th>
+            <th>
+                <strong>Capacity</strong>
+            </th>
+        </tr>
+
+            @for (int t = 0; t < ViewBag.nNodes; t++)
+            {
+                <tr>
+                    <td>
+                        @ViewBag.NodeInfo[t].Name
+                    </td>
+                    <td>
+                        @ViewBag.NodeInfo[t].Capacity 
+                        @ViewBag.NodeInfo[t].Units 
+                        /day
+                    </td>
+                </tr>
+            }
+    </table>
+    Change the Node Capacity by clicking on: @Html.ActionLink("Edit", "Edit", new {  })
+
+
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <h2>Original Table</h2>
+        <p>
+            This is the original table, taken from Maros.
+            <br />
+            <br />
+
+        </p>
+        <p>
+            <table class="table-bordered col-md-push-6 text-center">
+                <tr>
+                    <th>
+                        <strong>Date/Time</strong>
+                    </th>
+                    @for (int y = 0; y < ViewBag.nWells; y++)
+                    {
+                        <th>
+                            @ViewBag.flowTable[1].WellRates[y].NodeName
+                        </th>
+                    }
+                    <th>
+                        <strong>Total</strong>
+                    </th>
+                </tr>
+
+                @for (int i = 0; i < ViewBag.nYear; i++)
+                {
+                    <tr>
+                        <td>
+                            @String.Format("{0:d}", ViewBag.flowTable[i].MyDateTime)
+                        </td>
+
+                        @for (int y = 0; y < ViewBag.nWells; y++)
+                        {
+                            <td>
+                                @String.Format(" {0:F2} ", ViewBag.flowTable[i].WellRates[y].Rate)
+                            </td>
+                        }
+                        <td>
+                            @ViewBag.flowTable[i].TotalRate
+                        </td>
+                    </tr>
+                }
+            </table>
+        </p>
+    </div>
+    <div class="col-md-6">
+        <h2>Factorised Table</h2>
+        <p>
+            This is the new table, calculated by adjusting the production rates for each well by taking into account the existing bottleneck.
+        </p>
+
+        <table class="table-bordered col-md-push-6 text-center">
+            <tr>
+
+                <th>
+                    <strong>Date/Time</strong>
+                </th>
+
+                @for (int y = 0; y < ViewBag.nWells; y++)
+            {
+                    <th>
+                        <div>
+                            @ViewBag.factorisedTable[1].WellRates[y].NodeName
+                        </div>
+                    </th>
+                }
+                <th>
+                    <strong>Total</strong>
+                </th>
+            </tr>
+
+            @for (int i = 0; i < ViewBag.nYear; i++)
+            {
+                <tr>
+                    <td>
+                        @String.Format("{0:d}", ViewBag.factorisedTable[i].MyDateTime)
+                    </td>
+
+                    @for (int y = 0; y < ViewBag.nWells; y++)
+                {
+                        <td>
+                            @String.Format(" {0:F2} ", ViewBag.factorisedTable[i].WellRates[y].Rate)
+                        </td>
+                    }
+                    <td>
+                        @ViewBag.factorisedTable[i].TotalRate
+                    </td>
+
+                </tr>
+            }
+
+        </table>
+    </div>
+</div>
+
+
+
+
+
